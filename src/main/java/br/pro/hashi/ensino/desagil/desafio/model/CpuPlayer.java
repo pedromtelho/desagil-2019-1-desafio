@@ -12,6 +12,9 @@ public class CpuPlayer extends Player {
     private final boolean[][] visited;
     private final int numRows;
     private final int numCols;
+    private HumanPlayer humanPlayer;
+    private Element target;
+
 
     // Por outro lado, o conceito de nó também existe no caso do tabuleiro porque
     // precisamos de algum tipo de objeto para ser guardado na pilha. Veja no final
@@ -51,33 +54,39 @@ public class CpuPlayer extends Player {
     public void move() {
         if (!stack.isEmpty()) {
 
+
             // Na árvore, precisávamos dar um peek na pilha para descobrir a
             // localização atual. Aqui não precisamos fazer isso, pois já
             // sabemos essa localização: ela é dada pelos atributos row e col.
-
-            if (row > 0 && !visited[row - 1][col]) {
-                move(-1, 0);
+            if(humanPlayer.getCol() == target.getCol() && humanPlayer.getRow() == target.getRow()){
+                move(0,0);
                 save();
-            } else if (col < numCols - 1 && !visited[row][col + 1]) {
-                move(0, 1);
-                save();
-            } else if (row < numRows - 1 && !visited[row + 1][col]) {
-                move(1, 0);
-                save();
-            } else if (col > 0 && !visited[row][col - 1]) {
-                move(0, -1);
-                save();
-            } else {
-                stack.pop();
+            }
+            else{
+                if (row > 0 && !visited[row - 1][col]) {
+                    move(-1, 0);
+                    save();
+                } else if (col < numCols - 1 && !visited[row][col + 1]) {
+                    move(0, 1);
+                    save();
+                } else if (row < numRows - 1 && !visited[row + 1][col]) {
+                    move(1, 0);
+                    save();
+                } else if (col > 0 && !visited[row][col - 1]) {
+                    move(0, -1);
+                    save();
+                } else {
+                    stack.pop();
 
-                // Por outro lado, quando queremos dar um passo para trás, temos
-                // que dar um peek para descobrir qual era a localização anterior.
+                    // Por outro lado, quando queremos dar um passo para trás, temos
+                    // que dar um peek para descobrir qual era a localização anterior.
 
-                if (!stack.isEmpty()) {
-                    Node node = stack.peek();
+                    if (!stack.isEmpty()) {
+                        Node node = stack.peek();
 
-                    row = node.getRow();
-                    col = node.getCol();
+                        row = node.getRow();
+                        col = node.getCol();
+                    }
                 }
             }
         }

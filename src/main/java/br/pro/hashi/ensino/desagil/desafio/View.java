@@ -2,12 +2,15 @@ package br.pro.hashi.ensino.desagil.desafio;
 
 import br.pro.hashi.ensino.desagil.desafio.model.Board;
 import br.pro.hashi.ensino.desagil.desafio.model.Element;
+import br.pro.hashi.ensino.desagil.desafio.model.HumanPlayer;
 import br.pro.hashi.ensino.desagil.desafio.model.Model;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.Map;
+
+import static java.awt.Font.ITALIC;
 
 // Estender a classe JPanel e reescrever o método
 // paintComponent é um jeito tradicional de criar
@@ -72,6 +75,18 @@ public class View extends JPanel {
             g.drawImage(image, col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE, this);
         });
 
+        if(model.getWinner() != null){
+            if(model.getWinner() instanceof HumanPlayer){
+                g.setColor(Color.red);
+                g.drawString("Humano venceu",50,30);
+
+            }
+            else{
+                g.setColor(Color.red);
+                g.drawString("Computador venceu",50,30);
+            }
+        }
+
         // Linha necessária para evitar atrasos
         // de renderização em sistemas Linux.
         getToolkit().sync();
@@ -84,4 +99,9 @@ public class View extends JPanel {
         URL url = getClass().getClassLoader().getResource(name);
         return getToolkit().getImage(url);
     }
+
+    public void cpuWinner(Graphics g){
+        g.drawString("Computador venceu",0,0);
+    }
+
 }
